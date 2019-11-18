@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    color: #333;
+}
+
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+}
+
+.doc-wrap{
+	font-family:  -webkit-pictograph;
+}
+#top-layout {
+    padding: 0 32px;
+    line-height: 64px;
+    height: 64px;
+    background: #FDFDFD;
+	box-shadow: 0 2px 8px rgba(229, 229, 229, 0.5);
+}
+
+.wrap {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#left-layout {
+    padding: 32px 0;
+    width: 260px;
+    overflow-y: auto;
+    border-right: 1px solid #e9e9e9;
+}
+
+#left-layout .iconfont:not(.arrow) {
+    margin-right: 12px;
+    color: #999;
+}
+
+#left-layout i.arrow {
+    font-size: 12px;
+    color: #666;
+}
+
+#right-layout {
+    padding: 32px;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 100px;
+}
+
+#left-layout li .title {
+    padding: 12px;
+    padding-left: 20px;
+    cursor: pointer;
+    transition: .1s all ease;
+}
+
+#left-layout li .title span {
+    display: inline-block;
+    height: 100%;
+    width: 74%;
+    line-height: 1;
+}
+
+#left-layout li .title i {
+    display: inline-block;
+    margin-top: 3px;
+}
+
+#left-layout li .title.active i,
+#left-layout .title.active span {
+    color: #3295ff;
+}
+
+#left-layout li .title:hover {
+    background-color: #3295ff;
+}
+
+#left-layout li .title:hover span,
+#left-layout li .title:hover i {
+    color: #fff;
+}
+
+#left-layout li .sec {
+    display: none;
+    cursor: pointer;
+    padding: 10px 48px;
+    padding-left: 60px;
+    height: 100%;
+}
+
+#left-layout li .sec:hover span {
+    color: #666;
+}
+
+#left-layout li .sec.active span {
+    color: #386cca;
+}
+
+.chart-content {
+    padding: 40px;
+    overflow: auto;
+}
+
+p.text {
+    text-indent: 2em;
+    line-height: 1.6em;
+    margin-bottom: 12px;
+}
+
+.vue-codemirror span,
+.vue-codemirror div,
+.vue-codemirror pre {
+    font-size: 14px !important;
+}
+
+.vue-codemirror {
+    border: 1px solid #eee;
+    box-shadow: 0 2px 8px rgba(229, 229, 229, 0.5);
+}
+
+.flex-layout {
+    display: flex;
+}
+
+.flex-layout>div {
+    flex: 1;
+}
+
+input[type='color'] {
+    visibility: hidden;
+}
+
+a.run {
+    padding: 4px 14px;
+    display: block;
+    width: 36px;
+    background-color: #fff;
+    border: 1px solid #999;
+    text-align: center;
+    text-decoration: none;
+}
+
+.el-form-item__content {
+    max-width: 120px;
+}
+
+.CodeMirror {
+    height: 100% !important;
+}
+
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #F5F5F5;
+}
+
+
+/*定义滚动条轨道 内阴影+圆角*/
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+
+/*定义滑块 内阴影+圆角*/
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(172, 172, 172, 0.1);
+    background-color: #ccc;
+}
+
+h3 {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.chart-content {
+    width: 80%;
+    /* height: 500px; */
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+/* 箱线图 */
+
+#chart-boxplot {
+    width: 90%;
+}
+
+
+/* 聚类图 */
+
+#chart-cluster {
+    height: auto;
+}
+
+#chart-bubble {
+    width: 90%;
+    height: auto;
+    min-height: 500px;
+}
+
+#chart-manhattan {
+    width: 90%;
+}
+
+#docs{
+	width: 100%;
+	height:100%;
+	position: relative;
+	overflow: hidden;
+}
+.doc-wrap{
+
+	height: calc(100% - 64px);
+	width: 100%;
+	position: absolute;
+	top: 64px;
+	left: 0;
+	overflow: auto;
+}
+.doc-tree {
+	padding:40px;
+}
+.doc-tree ,.doc-tree ol{
+	width: 100%;
+}
+.doc-tree .level1{
+	font-size: 26px;
+	padding-left: 12px;
+	padding-bottom: 6px;
+	position: relative;
+}
+.doc-tree .level2{
+	font-size: 18px;
+	padding-bottom: 6px;
+}
+.doc-tree .level2-code{
+	background-color: #eee;
+	padding:10px 12px;
+	display: inline-block;
+	margin-left: 24px;
+	border-radius: 4px;
+}
+.doc-tree .level1:after{
+	width: 4px;
+	height: 80%;
+	background-color: #333;
+	position: absolute;
+	left: 0;
+	top: 10%;
+	content:"";
+}
+.doc-tree ul li{
+	padding-left: 24px;
+}
+.doc-tree ol{
+	padding-bottom: 12px;
+	padding-top: 12px;
+	border-bottom:2px solid #f5f5f5;
+}
+.doc-tree ol li,.doc-tree .desc{
+	font-size:14px;
+	padding:4px 0;
+	padding-left: 24px;
+}

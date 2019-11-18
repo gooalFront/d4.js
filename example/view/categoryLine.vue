@@ -1,0 +1,229 @@
+<template>
+    <div id="category-line-chart" >
+        <h3>分类折线图</h3>
+        <p class="text">多条折线图，分类显示。</p>
+		<el-button size="small" @click="redraw">重画</el-button>
+		<el-button size="small" @click="set('cardinal')">cardinal</el-button>
+		<el-button size="small" @click="set('basic')">basic</el-button>
+		<el-button size="small" @click="set('step')">step</el-button>
+		<el-button size="small" @click="set('linear')">linear</el-button>
+
+		x:
+ 		<el-button size="small" @click="changeXAxis('bottom')">bottom</el-button>
+ 		<el-button size="small" @click="changeXAxis('top')">top</el-button>
+		 &emsp;y:
+ 		<el-button size="small" @click="changeYAxis('left')">left</el-button>
+ 		<el-button size="small" @click="changeYAxis('right')">right</el-button>
+
+		<div class="chart-content" id="category-chart-line" style="overflow:auto;"></div>
+		<codemirror ref="code"
+			v-model="code"
+			:options="options"
+		></codemirror>
+    </div>
+</template>
+
+<script>
+export default {
+  name: "categoryLineChart",
+  computed: {
+    options: function() {
+      return {
+        mode: "javascript",
+        tabSize: 2,
+        lineNumbers: true,
+        lineWrapping: true,
+        viewportMargin: Infinity,
+        showCursorWhenSelecting: true,
+        readOnly: true,
+        theme: "neo",
+        extranames: { "Ctrl-Space": "autocomplete" }
+      };
+    }
+  },
+  data() {
+    return {
+      code: `
+	  {
+        chart: {
+		  title: "分类折线图",
+          dblclick: function(event) {
+            var name = prompt("请输入需要修改的标题", "");
+            if (name) {
+              this.setChartTitle(name);
+              this.updateTitle();
+            }
+          },
+          custom: ["name", "value", "category"],
+          el: "#category-chart-line",
+          type: "categoryLine",
+          data: [
+            { category: "197", name: "HBRR", value: 0.043333333333333335 },
+            { category: "213", name: "HBRR", value: 0.12333333333333335 },
+            { category: "259", name: "HBRR", value: 0.02666666666666667 },
+            { category: "3046", name: "HBRR", value: 0 },
+            { category: "3169", name: "HBRR", value: 0.006666666666666667 },
+            { category: "336", name: "HBRR", value: 0.12333333333333335 },
+            { category: "338", name: "HBRR", value: 0.02333333333333333 },
+            { category: "345", name: "HBRR", value: 0 },
+            { category: "3484", name: "HBRR", value: 0.10666666666666667 },
+            { category: "4312", name: "HBRR", value: 0 },
+            { category: "4586", name: "HBRR", value: 0 },
+            { category: "5004", name: "HBRR", value: 0 },
+            { category: "55872", name: "HBRR", value: 0 },
+            { category: "5644", name: "HBRR", value: 0 },
+            { category: "5645", name: "HBRR", value: 0.05 },
+            { category: "6906", name: "HBRR", value: 0 },
+            { category: "7153", name: "HBRR", value: 0.03666666666666667 },
+            { category: "7299", name: "HBRR", value: 0.01 },
+            { category: "866", name: "HBRR", value: 0 },
+            { category: "197", name: "UHRR", value: 501.9466666666667 },
+            { category: "213", name: "UHRR", value: 404.90333333333336 },
+            { category: "259", name: "UHRR", value: 116.69 },
+            { category: "3046", name: "UHRR", value: 698.38 },
+            { category: "3169", name: "UHRR", value: 11.683333333333335 },
+            { category: "336", name: "UHRR", value: 715.8566666666667 },
+            { category: "338", name: "UHRR", value: 79.35333333333331 },
+            { category: "345", name: "UHRR", value: 50.93333333333333 },
+            { category: "3484", name: "UHRR", value: 127.11666666666667 },
+            { category: "4312", name: "UHRR", value: 15.233333333333334 },
+            { category: "4586", name: "UHRR", value: 0.7399999999999999 },
+            { category: "5004", name: "UHRR", value: 51.15 },
+            { category: "55872", name: "UHRR", value: 25.79666666666667 },
+            { category: "5644", name: "UHRR", value: 32.36333333333334 },
+            { category: "5645", name: "UHRR", value: 111.43 },
+            { category: "6906", name: "UHRR", value: 9.276666666666666 },
+            { category: "7153", name: "UHRR", value: 73.54333333333334 },
+            { category: "7299", name: "UHRR", value: 41.086666666666666 },
+            { category: "866", name: "UHRR", value: 14.01 }
+          ]
+        },
+        axis: {
+          x: {
+            title: "FPKM",
+            rotate: 60,
+            dblclick: function(event) {
+              var name = prompt("请输入需要修改的标题", "");
+              if (name) {
+                this.setXTitle(name);
+                this.updateTitle();
+              }
+            }
+          },
+          y: {
+            title: "Log10",
+            dblclick: function(event) {
+              var name = prompt("请输入需要修改的标题", "");
+              if (name) {
+                this.setYTitle(name);
+                this.updateTitle();
+              }
+            }
+          }
+        },
+        legend: {
+          show: true,
+          position: "right"
+        },
+        tooltip: function(d) {
+          return "<h2>FPKM:"+d.name+"</h2><h2>log10:"+d.value+"</h2><h2>id:"+
+            d.category+"</h2>"
+        }
+      }`,
+      chart: null,
+      config: {
+        chart: {
+          title: "分类折线图",
+          dblclick: function(event) {
+            var name = prompt("请输入需要修改的标题", "");
+            if (name) {
+              this.setChartTitle(name);
+              this.updateTitle();
+            }
+          },
+          mouseover: function(event, titleObj) {
+            titleObj
+              .attr("fill", "blue")
+              .append("title")
+              .text("custom");
+          },
+          mouseout: function(event, titleObj) {
+            titleObj.attr("fill", "#333");
+            titleObj.select("title").remove();
+          },
+          el: "#category-chart-line",
+          interpolate: "cardinal",
+          type: "categoryLine",
+		  colors: ["red", "blue"],
+		   custom: ["x", "y", "category"],
+          data:
+            [{"x":"average_fpkm_A","y":2.775,"category":"QRA1BG"},{"x":"average_fpkm_B","y":14.775,"category":"QRA1BG"},{"x":"average_fpkm_A","y":4.04225,"category":"QRAADAC"},{"x":"average_fpkm_B","y":21.52225,"category":"QRAADAC"},{"x":"average_fpkm_A","category":"QRAAR2"},{"x":"average_fpkm_B","category":"QRAAR2"},{"x":"average_fpkm_A","y":2.7935,"category":"QRABCB1"},{"x":"average_fpkm_B","y":14.8735,"category":"QRABCB1"},{"x":"average_fpkm_A","category":"QRABCB9"},{"x":"average_fpkm_B","category":"QRABCB9"},{"x":"average_fpkm_A","y":4.07925,"category":"QRABCC1"},{"x":"average_fpkm_B","y":21.71925,"category":"QRABCC1"},{"x":"average_fpkm_A","y":3.70925,"category":"QRABCC4"},{"x":"average_fpkm_B","y":19.74925,"category":"QRABCC4"},{"x":"average_fpkm_A","y":24.9935,"category":"QRABHD12"},{"x":"average_fpkm_B","y":133.0735,"category":"QRABHD12"},{"x":"average_fpkm_A","y":5.0875,"category":"QRABHD14B"},{"x":"average_fpkm_B","y":27.0875,"category":"QRABHD14B"},{"x":"average_fpkm_A","category":"QRABHD16A"},{"x":"average_fpkm_B","category":"QRABHD16A"},{"x":"average_fpkm_A","y":1.4615,"category":"QRABHD5"},{"x":"average_fpkm_B","y":7.7815,"category":"QRABHD5"},{"x":"average_fpkm_A","y":2.2015,"category":"QRABL2"},{"x":"average_fpkm_B","y":11.7215,"category":"QRABL2"},{"x":"average_fpkm_A","y":19.73025,"category":"QRABRACL"},{"x":"average_fpkm_B","y":105.05025,"category":"QRABRACL"},{"x":"average_fpkm_A","y":41.9395,"category":"QRABT1"},{"x":"average_fpkm_B","y":223.2995,"category":"QRABT1"},{"x":"average_fpkm_A","y":11.1,"category":"QRACADM"},{"x":"average_fpkm_B","y":59.1,"category":"QRACADM"},{"x":"average_fpkm_A","y":1.2765,"category":"QRACCS"},{"x":"average_fpkm_B","y":6.7965,"category":"QRACCS"},{"x":"average_fpkm_A","category":"QRACOX3"},{"x":"average_fpkm_B","category":"QRACOX3"},{"x":"average_fpkm_A","y":56.76725,"category":"QRACSL3"},{"x":"average_fpkm_B","y":302.24725,"category":"QRACSL3"},{"x":"average_fpkm_A","y":1008.398,"category":"QRACTB"},{"x":"average_fpkm_B","y":5369.038,"category":"QRACTB"},{"x":"average_fpkm_A","y":88.615,"category":"QRACTN4"},{"x":"average_fpkm_B","y":471.815,"category":"QRACTN4"},{"x":"average_fpkm_A","y":1.443,"category":"QRACTR3C"},{"x":"average_fpkm_B","y":7.683,"category":"QRACTR3C"},{"x":"average_fpkm_A","y":4.00525,"category":"QRADA"},{"x":"average_fpkm_B","y":21.32525,"category":"QRADA"},{"x":"average_fpkm_A","y":1.258,"category":"QRADAMTSL4"},{"x":"average_fpkm_B","y":6.698,"category":"QRADAMTSL4"},{"x":"average_fpkm_A","y":1.4985,"category":"QRADAP2"},{"x":"average_fpkm_B","y":7.9785,"category":"QRADAP2"},{"x":"average_fpkm_A","y":3.4965,"category":"QRADCK4"},{"x":"average_fpkm_B","y":18.6165,"category":"QRADCK4"},{"x":"average_fpkm_A","y":5.1615,"category":"QRADCY9"},{"x":"average_fpkm_B","y":27.4815,"category":"QRADCY9"},{"x":"average_fpkm_A","y":12.987,"category":"QRADD3"},{"x":"average_fpkm_B","y":69.147,"category":"QRADD3"},{"x":"average_fpkm_A","y":1.8685,"category":"QRADGRD1"},{"x":"average_fpkm_B","y":9.9485,"category":"QRADGRD1"},{"x":"average_fpkm_A","y":6.438,"category":"QRADGRE5"},{"x":"average_fpkm_B","y":34.278,"category":"QRADGRE5"},{"x":"average_fpkm_A","y":1.24875,"category":"QRADGRG5"},{"x":"average_fpkm_B","y":6.64875,"category":"QRADGRG5"},{"x":"average_fpkm_A","y":7.8625,"category":"QRADNP2"},{"x":"average_fpkm_B","y":41.8625,"category":"QRADNP2"},{"x":"average_fpkm_A","y":39.93225,"category":"QRADSS"},{"x":"average_fpkm_B","y":212.61225,"category":"QRADSS"},{"x":"average_fpkm_A","y":14.25425,"category":"QRAFMID"},{"x":"average_fpkm_B","y":75.89425,"category":"QRAFMID"},{"x":"average_fpkm_A","y":37.962,"category":"QRAFP"},{"x":"average_fpkm_B","y":202.122,"category":"QRAFP"},{"x":"average_fpkm_A","category":"QRAFTPH"},{"x":"average_fpkm_B","category":"QRAFTPH"},{"x":"average_fpkm_A","category":"QRAGA"},{"x":"average_fpkm_B","category":"QRAGA"},{"x":"average_fpkm_A","y":5.143,"category":"QRAGK"},{"x":"average_fpkm_B","y":27.383,"category":"QRAGK"},{"x":"average_fpkm_A","category":"QRAGPAT2"},{"x":"average_fpkm_B","category":"QRAGPAT2"},{"x":"average_fpkm_A","y":7.05775,"category":"QRAGPAT5"},{"x":"average_fpkm_B","y":37.57775,"category":"QRAGPAT5"},{"x":"average_fpkm_A","y":8.68575,"category":"QRAGXT"},{"x":"average_fpkm_B","y":46.24575,"category":"QRAGXT"},{"x":"average_fpkm_A","y":28.7675,"category":"QRAHR"},{"x":"average_fpkm_B","y":153.1675,"category":"QRAHR"},{"x":"average_fpkm_A","category":"QRAIF1L"},{"x":"average_fpkm_B","category":"QRAIF1L"},{"x":"average_fpkm_A","y":3.0525,"category":"QRAIFM3"},{"x":"average_fpkm_B","y":16.2525,"category":"QRAIFM3"},{"x":"average_fpkm_A","y":7.363,"category":"QRAK4"},{"x":"average_fpkm_B","y":39.203,"category":"QRAK4"},{"x":"average_fpkm_A","category":"QRAKAP17A"},{"x":"average_fpkm_B","category":"QRAKAP17A"},{"x":"average_fpkm_A","y":1.295,"category":"QRAKAP7"},{"x":"average_fpkm_B","y":6.895,"category":"QRAKAP7"},{"x":"average_fpkm_A","y":22.3295,"category":"QRALAS1"},{"x":"average_fpkm_B","y":118.8895,"category":"QRALAS1"},{"x":"average_fpkm_A","y":24.3275,"category":"QRALCAM"},{"x":"average_fpkm_B","y":129.5275,"category":"QRALCAM"},{"x":"average_fpkm_A","y":25.02125,"category":"QRALDH1B1"},{"x":"average_fpkm_B","y":133.22125,"category":"QRALDH1B1"},{"x":"average_fpkm_A","y":72.36275,"category":"QRALDH2"},{"x":"average_fpkm_B","y":385.28275,"category":"QRALDH2"},{"x":"average_fpkm_A","y":5.6425,"category":"QRALDH7A1"},{"x":"average_fpkm_B","y":30.0425,"category":"QRALDH7A1"},{"x":"average_fpkm_A","y":17.4825,"category":"QRALDH9A1"},{"x":"average_fpkm_B","y":93.0825,"category":"QRALDH9A1"},{"x":"average_fpkm_A","y":4.07925,"category":"QRALG10"},{"x":"average_fpkm_B","y":21.71925,"category":"QRALG10"},{"x":"average_fpkm_A","y":12.64475,"category":"QRALG2"},{"x":"average_fpkm_B","y":67.32475,"category":"QRALG2"},{"x":"average_fpkm_A","y":8.732,"category":"QRALG3"},{"x":"average_fpkm_B","y":46.492,"category":"QRALG3"},{"x":"average_fpkm_A","y":3.35775,"category":"QRALKBH1"},{"x":"average_fpkm_B","y":17.87775,"category":"QRALKBH1"},{"x":"average_fpkm_A","category":"QRALS2"},{"x":"average_fpkm_B","category":"QRALS2"},{"x":"average_fpkm_A","y":6.31775,"category":"QRAMZ1"},{"x":"average_fpkm_B","y":33.63775,"category":"QRAMZ1"},{"x":"average_fpkm_A","y":14.504,"category":"QRAMZ2"},{"x":"average_fpkm_B","y":77.224,"category":"QRAMZ2"},{"x":"average_fpkm_A","y":4.8655,"category":"QRANAPC1"},{"x":"average_fpkm_B","y":25.9055,"category":"QRANAPC1"},{"x":"average_fpkm_A","y":6.7525,"category":"QRANAPC10"},{"x":"average_fpkm_B","y":35.9525,"category":"QRANAPC10"},{"x":"average_fpkm_A","y":15.82675,"category":"QRANAPC16"},{"x":"average_fpkm_B","y":84.26675,"category":"QRANAPC16"},{"x":"average_fpkm_A","y":4.477,"category":"QRANG"},{"x":"average_fpkm_B","y":23.837,"category":"QRANG"},{"x":"average_fpkm_A","category":"QRANGEL2"},{"x":"average_fpkm_B","category":"QRANGEL2"},{"x":"average_fpkm_A","y":3.4965,"category":"QRANGPTL3"},{"x":"average_fpkm_B","y":18.6165,"category":"QRANGPTL3"},{"x":"average_fpkm_A","y":2.4235,"category":"QRANKIB1"},{"x":"average_fpkm_B","y":12.9035,"category":"QRANKIB1"},{"x":"average_fpkm_A","y":1.47075,"category":"QRANKRD11"},{"x":"average_fpkm_B","y":7.83075,"category":"QRANKRD11"},{"x":"average_fpkm_A","y":4.773,"category":"QRANKRD27"},{"x":"average_fpkm_B","y":25.413,"category":"QRANKRD27"},{"x":"average_fpkm_A","y":9.57375,"category":"QRANKRD46"},{"x":"average_fpkm_B","y":50.97375,"category":"QRANKRD46"},{"x":"average_fpkm_A","y":7.733,"category":"QRANKS4B"},{"x":"average_fpkm_B","y":41.173,"category":"QRANKS4B"},{"x":"average_fpkm_A","y":13.7825,"category":"QRANPEP"},{"x":"average_fpkm_B","y":73.3825,"category":"QRANPEP"},{"x":"average_fpkm_A","y":20.239,"category":"QRANXA11"},{"x":"average_fpkm_B","y":107.759,"category":"QRANXA11"},{"x":"average_fpkm_A","y":52.725,"category":"QRANXA7"},{"x":"average_fpkm_B","y":280.725,"category":"QRANXA7"},{"x":"average_fpkm_A","y":23.72625,"category":"QRANXA9"},{"x":"average_fpkm_B","y":126.32625,"category":"QRANXA9"},{"x":"average_fpkm_A","y":6.16975,"category":"QRAP1S3"},{"x":"average_fpkm_B","y":32.84975,"category":"QRAP1S3"},{"x":"average_fpkm_A","y":10.49875,"category":"QRAP2A2"},{"x":"average_fpkm_B","y":55.89875,"category":"QRAP2A2"},{"x":"average_fpkm_A","y":4.2735,"category":"QRAP3B1"},{"x":"average_fpkm_B","y":22.7535,"category":"QRAP3B1"},{"x":"average_fpkm_A","y":3.441,"category":"QRAP3M2"},{"x":"average_fpkm_B","y":18.321,"category":"QRAP3M2"},{"x":"average_fpkm_A","category":"QRAP5B1"},{"x":"average_fpkm_B","category":"QRAP5B1"},{"x":"average_fpkm_A","category":"QRAP5Z1"},{"x":"average_fpkm_B","category":"QRAP5Z1"},{"x":"average_fpkm_A","y":4.68975,"category":"QRAPBB1"},{"x":"average_fpkm_B","y":24.96975,"category":"QRAPBB1"},{"x":"average_fpkm_A","y":115.81925,"category":"QRAPH1A"},{"x":"average_fpkm_B","y":616.65925,"category":"QRAPH1A"},{"x":"average_fpkm_A","y":19.28625,"category":"QRAPIP"},{"x":"average_fpkm_B","y":102.68625,"category":"QRAPIP"},{"x":"average_fpkm_A","y":3.3485,"category":"QRAPITD1"},{"x":"average_fpkm_B","y":17.8285,"category":"QRAPITD1"},{"x":"average_fpkm_A","y":3.108,"category":"QRAPOA5"},{"x":"average_fpkm_B","y":16.548,"category":"QRAPOA5"},{"x":"average_fpkm_A","y":1047.951,"category":"QRAPOC1"},{"x":"average_fpkm_B","y":5579.631,"category":"QRAPOC1"},{"x":"average_fpkm_A","y":71.2435,"category":"QRAPOC3"},{"x":"average_fpkm_B","y":379.3235,"category":"QRAPOC3"},{"x":"average_fpkm_A","y":2587.80775,"category":"QRAPOE"},{"x":"average_fpkm_B","y":13778.32775,"category":"QRAPOE"},{"x":"average_fpkm_A","y":5.85525,"category":"QRAPOL2"},{"x":"average_fpkm_B","y":31.17525,"category":"QRAPOL2"},{"x":"average_fpkm_A","category":"QRAPOM"},{"x":"average_fpkm_B","category":"QRAPOM"},{"x":"average_fpkm_A","y":11.7845,"category":"QRAPOPT1"},{"x":"average_fpkm_B","y":62.7445,"category":"QRAPOPT1"},{"x":"average_fpkm_A","y":4.20875,"category":"QRAPPL1"},{"x":"average_fpkm_B","y":22.40875,"category":"QRAPPL1"},{"x":"average_fpkm_A","y":5.13375,"category":"QRAREL1"},{"x":"average_fpkm_B","y":27.33375,"category":"QRAREL1"},{"x":"average_fpkm_A","y":22.2925,"category":"QRARF3"},{"x":"average_fpkm_B","y":118.6925,"category":"QRARF3"},{"x":"average_fpkm_A","category":"QRARF4"},{"x":"average_fpkm_B","category":"QRARF4"},{"x":"average_fpkm_A","y":19.67475,"category":"QRARFGAP1"},{"x":"average_fpkm_B","y":104.75475,"category":"QRARFGAP1"},{"x":"average_fpkm_A","y":1.8685,"category":"QRARFGEF3"},{"x":"average_fpkm_B","y":9.9485,"category":"QRARFGEF3"},{"x":"average_fpkm_A","y":11.81225,"category":"QRARFIP2"},{"x":"average_fpkm_B","y":62.89225,"category":"QRARFIP2"},{"x":"average_fpkm_A","y":5.74425,"category":"QRARHGAP5"},{"x":"average_fpkm_B","y":30.58425,"category":"QRARHGAP5"},{"x":"average_fpkm_A","category":"QRARHGEF1"},{"x":"average_fpkm_B","category":"QRARHGEF1"},{"x":"average_fpkm_A","y":4.89325,"category":"QRARHGEF25"},{"x":"average_fpkm_B","y":26.05325,"category":"QRARHGEF25"},{"x":"average_fpkm_A","y":5.439,"category":"QRARHGEF5"},{"x":"average_fpkm_B","y":28.959,"category":"QRARHGEF5"},{"x":"average_fpkm_A","category":"QRARL14EP"},{"x":"average_fpkm_B","category":"QRARL14EP"},{"x":"average_fpkm_A","category":"QRARL15"},{"x":"average_fpkm_B","category":"QRARL15"},{"x":"average_fpkm_A","y":172.7715,"category":"QRARL2"},{"x":"average_fpkm_B","y":919.8915,"category":"QRARL2"},{"x":"average_fpkm_A","y":16.03025,"category":"QRARL6IP5"},{"x":"average_fpkm_B","y":85.35025,"category":"QRARL6IP5"},{"x":"average_fpkm_A","y":29.88675,"category":"QRARL8B"},{"x":"average_fpkm_B","y":159.12675,"category":"QRARL8B"},{"x":"average_fpkm_A","y":16.34475,"category":"QRARMC10"},{"x":"average_fpkm_B","y":87.02475,"category":"QRARMC10"},{"x":"average_fpkm_A","y":3.72775,"category":"QRARMC7"},{"x":"average_fpkm_B","y":19.84775,"category":"QRARMC7"},{"x":"average_fpkm_A","y":5.3835,"category":"QRARMC8"},{"x":"average_fpkm_B","y":28.6635,"category":"QRARMC8"},{"x":"average_fpkm_A","y":1.37825,"category":"QRARMC9"},{"x":"average_fpkm_B","y":7.33825,"category":"QRARMC9"},{"x":"average_fpkm_A","y":30.44175,"category":"QRARMT1"},{"x":"average_fpkm_B","y":162.08175,"category":"QRARMT1"},{"x":"average_fpkm_A","y":182.5395,"category":"QRARPC4"},{"x":"average_fpkm_B","y":971.8995,"category":"QRARPC4"},{"x":"average_fpkm_A","category":"QRASB1"},{"x":"average_fpkm_B","category":"QRASB1"},{"x":"average_fpkm_A","y":6.63225,"category":"QRASB7"},{"x":"average_fpkm_B","y":35.31225,"category":"QRASB7"},{"x":"average_fpkm_A","y":6.09575,"category":"QRASCC1"},{"x":"average_fpkm_B","y":32.45575,"category":"QRASCC1"},{"x":"average_fpkm_A","y":24.05925,"category":"QRASF1B"},{"x":"average_fpkm_B","y":128.09925,"category":"QRASF1B"},{"x":"average_fpkm_A","category":"QRASPH"},{"x":"average_fpkm_B","category":"QRASPH"},{"x":"average_fpkm_A","y":85.92325,"category":"QRASS1"},{"x":"average_fpkm_B","y":457.48325,"category":"QRASS1"},{"x":"average_fpkm_A","y":41.22725,"category":"QRATG101"},{"x":"average_fpkm_B","y":219.50725,"category":"QRATG101"}]
+        },
+        axis: {
+          x: {
+            title: "FPKM",
+            rotate: 60,
+            position: "bottom",
+            dblclick: function(event) {
+              var name = prompt("请输入需要修改的标题", "");
+              if (name) {
+                this.setXTitle(name);
+                this.updateTitle();
+              }
+            }
+          },
+          y: {
+            title: "Log10",
+            position: "left",
+            dblclick: function(event) {
+              var name = prompt("请输入需要修改的标题", "");
+              if (name) {
+                this.setYTitle(name);
+                this.updateTitle();
+              }
+            }
+          }
+        },
+        legend: {
+          show: true,
+          position: "right"
+        },
+        tooltip: function(d) {
+          return `<span>FPKM：${d.name}</span><br><span>log10：${
+            d.value
+          }</span><br><span>id：${d.category}</span>`;
+        }
+      }
+    };
+  },
+  mounted() {
+    this.chart = this.d4.init(this.config);
+  },
+  methods: {
+    redraw() {
+      this.chart.redraw();
+    },
+    run() {
+      eval(this.code);
+    },
+    set(type) {
+      var p = this.chart.getOptions();
+      p.chart.interpolate = type;
+      this.chart.setOptions(p);
+      this.chart.redraw();
+    },
+    changeXAxis(pos) {
+      var p = this.chart.getOptions();
+      p.axis.x.position = pos;
+      this.chart.setOptions(p);
+      this.chart.redraw();
+    },
+    changeYAxis(pos) {
+      var p = this.chart.getOptions();
+      p.axis.y.position = pos;
+      this.chart.setOptions(p);
+      this.chart.redraw();
+    }
+  }
+};
+</script>

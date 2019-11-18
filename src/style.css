@@ -1,0 +1,16 @@
+
+
+svg.d4-chart-content{
+    fill : #666;
+    color: #666;
+}
+
+svg.d4-chart-content .axis path,svg.d4-chart-content .axisline{
+	stroke:#333;
+	stroke-width: 1px;
+}
+
+svg.d4-chart-content text{
+	user-select: none;
+	font-family: Arial!important;
+}
